@@ -40,7 +40,9 @@ apiServer.get("/somma", (request, response) => {
 // prende i dati dall'array studenti --> http://localhost:3000/student?id=1
 apiServer.get("/student", (request, response) => {
     console.log("student id", request.query.id);
-    // 1. leggere il file :
+    // 1. leggere il file
+    // 2. prelevare l'oggetto con id 1
+    // 3. send 
     fs.readFile("studenti.json", (err, data)=> {
         if(err){
             console.log("errore: " + err);
@@ -59,7 +61,25 @@ apiServer.get("/student", (request, response) => {
             console.log("studenti: " + students[0].surname); */
         }
     });
-    // 2. prelevare l'oggetto con id 1
-    // 3. send 
+});
 
+// http://localhost:3000/newStudent?id=3&name=Mattia&surname=Amati
+apiServer.get("/newStudent", (request, response) => {
+    // console.log("student", request.query);
+    var student = {
+        "surname": request.query.surname,
+        "name":  request.query.name,
+        "id":  request.query.id
+    }
+    fs.readFile("studenti.json", (err, data)=> {
+        if(err){
+            console.log("errore: " + err);
+        }else{
+            var students = JSON.parse(data);
+            var studente = JSON.parse(data); 
+            studente.push(student); 
+            var json = JSON.stringify(studente); 
+            fs.writeFile('studenti.json', json);
+        }
+    });
 });
