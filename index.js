@@ -4,17 +4,13 @@ var express = require("express");
 var apiServer = express();
 var fs = require("fs"); // serve per leggere e scrivere sui file
 
-/* console.log("funziona");
-var a = 5;
-var b = "3";
-console.log(a + b); */
-
 var port = 3000;
 var host = "localhost";
 // port= porta, host = host, () = funzione che viene eseguita
+
 apiServer.listen(port, host, () => {
     console.log("server running at http://%s:%d", host, port);
-});
+}); 
 
 apiServer.get("/", (request, response) => {
     console.log("sono in get /", request);
@@ -63,7 +59,7 @@ apiServer.get("/student", (request, response) => {
     });
 });
 
-// http://localhost:3000/newStudent?id=3&name=Mattia&surname=Amati
+/* // http://localhost:3000/newStudent?id=3&name=Mattia&surname=Amati
 apiServer.get("/newStudent", (request, response) => {
     // console.log("student", request.query);
     var student = {
@@ -82,4 +78,16 @@ apiServer.get("/newStudent", (request, response) => {
             fs.writeFile('studenti.json', json);
         }
     });
+}); */
+
+apiServer.get("/soap", (request, response) => { //formatta in json
+    console.log("richiesta get");
+    response.setHeader("Content-Type", "application/json");
+    response.send(JSON.stringify({"nome": request.query.nome},null,3));
+});
+
+apiServer.post("/soap", (request, response) => { 
+    console.log("richiesta post", request);
+    response.setHeader("Content-Type", "application/json");
+    response.send(JSON.stringify({"nome": request.query.nome},null,3));
 });
